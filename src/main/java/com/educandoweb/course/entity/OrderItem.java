@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.educandoweb.course.entity.pk.OrderItemPk;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -22,14 +23,18 @@ public class OrderItem implements Serializable {
 	
 	public OrderItem() {
 	}
-
-	public OrderItem(OrderItemPk id, Integer quantity, Double price) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.price = price;
+	
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
+	    super();
+	    this.id = new OrderItemPk();
+	    this.id.setOrder(order);
+	    this.id.setProduct(product);
+	    this.quantity = quantity;
+	    this.price = price;
 	}
 
+
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
